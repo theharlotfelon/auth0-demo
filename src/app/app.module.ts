@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbCollapse, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,13 +9,14 @@ import { AboutUsComponent } from './about-us/about-us.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AboutUsComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    NgbModule,
+    NgbCollapse
   ],
   providers: [],
   bootstrap: [AppComponent]
