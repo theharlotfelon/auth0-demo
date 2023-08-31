@@ -9,3 +9,21 @@ export const setSection = (sectionArray:string[]) => {
     section: sectionArray
   })
 }
+
+export const setIdentity = (iss:string, acr:string, sub:string) => {
+  window.lpTag.identities.push(identityFn)
+
+  function identityFn(callback:any) {
+    callback({
+      iss: iss,
+      acr: acr,
+      sub: sub
+    })
+
+  }
+
+}
+
+export const getAuthToken = () => {
+
+}
