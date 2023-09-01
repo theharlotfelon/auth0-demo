@@ -24,6 +24,3 @@ export const setIdentity = (iss:string, acr:string, sub:string) => {
 
 }
 
-export const getAuthToken = () => {
-
-}

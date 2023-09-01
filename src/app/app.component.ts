@@ -3,7 +3,7 @@ import { AuthService } from "@auth0/auth0-angular";
 import { DOCUMENT } from "@angular/common";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import {setIdentity, setSection} from './_helpers/lp_methods'
-import {firstValueFrom, lastValueFrom, of, switchMap, take} from "rxjs";
+import {firstValueFrom } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -15,13 +15,46 @@ export class AppComponent implements OnInit {
   isCollapsed = true;
   isAuthenticated = false;
   data:any;
+  jwt:any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public auth: AuthService, @Inject(DOCUMENT)
-    private doc: Document
-  ) {}
+    private doc: Document,
+  ) {
+
+   /* (window as any).lpMethod = {
+      async lpGetAuthenticationToken () {
+        console.log("LP asked for id_token or auth code in Code Flow");
+        try {
+          // Do your magic…
+          const id_token = await firstValueFrom(auth.idTokenClaims$);
+          // On Success
+          console.log(id_token.__raw)
+          return id_token.__raw;
+        } catch (error) {
+          console.error('Error fetching data:', error);
+          return error;
+        }
+      },
+    };*/
+
+    (window as any).lpMethod = {
+       lpGetAuthenticationToken: async (cb) => {
+        console.log("LP asked for id_token or auth code in Code Flow");
+          return cb({
+            redirect_uri: window.location.origin + '/home', ssoKey: await firstValueFrom(auth.idTokenClaims$).then(data => {
+              setIdentity(data['iss'], "loa1", data['sub'])
+              console.log(data);
+              return data.__raw
+            })
+          })
+        }
+      };
+
+  }
+
 
   async ngOnInit() {
     this.isCollapsed = true;
@@ -55,21 +88,16 @@ export class AppComponent implements OnInit {
         console.log("authenticated: " + this.isAuthenticated);
 
         if (this.isAuthenticated) {
-          // this.auth.idTokenClaims$.subscribe({
-          //   next: (data) => {
-          //     setIdentity(data.iss, "ac0", data.sub)
-          //     setSection(["angular", "auth"]);
-          //   }
-          // })
+          setSection(["angular", "auth"])
+          setIdentity('https://dev-qe7bluong1kg7kp8.us.auth0.com/', "loa1", 'auth0|64eec39749e311035ad7face')
 
-          async function jwtClaim(obs) {
+          /*async function jwtClaim(obs) {
             const data = await firstValueFrom((obs))
-            console.log(data)
-            setIdentity(data['iss'], "acr0", data['sub'])
+            setIdentity(data['iss'], "loa1", data['sub'])
             setSection(["angular", "auth"])
           }
 
-          jwtClaim(this.auth.idTokenClaims$);
+          jwtClaim(this.auth.idTokenClaims$);*/
 
         }
         else {
