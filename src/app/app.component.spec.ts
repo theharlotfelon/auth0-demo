@@ -1,20 +1,12 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { AuthModule } from '@auth0/auth0-angular';
 
 describe('AppComponent', () => {
-  const config = {
-    domain: 'https://not-real.auth0.com',
-    clientId: 'fake-client-id',
-    redirectUri: 'http://localhost:4200'
-  };
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        AuthModule.forRoot(config)
       ],
       declarations: [
         AppComponent
