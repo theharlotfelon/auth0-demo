@@ -1,0 +1,26 @@
+<div class="nav-container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">
+      <img src="assets/images/angular.svg" width="30" height="30" class="d-inline-block align-top" alt="Angular">
+      {{ title }}
+    </a>
+    <button (click)="isCollapsed = !isCollapsed" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about-us" *ngIf="auth.userProfile$ | async">About Us</a>
+        </li>
+        <li class="nav-item pl-lg-3">
+          <button *ngIf="auth.loggedIn === false" (click)="auth.login()" class="btn btn-primary">Login</button>
+          <button *ngIf="auth.loggedIn" (click)="auth.logout()" class="btn btn-secondary">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
